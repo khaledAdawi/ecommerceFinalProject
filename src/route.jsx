@@ -33,6 +33,13 @@ const router = createBrowserRouter([
             {
                 path:'contact',
                 element:<Contact />
+            },{
+                path:'login',
+                element:<Login />
+            },
+            {
+                path:'register',
+                element:<Register />
             }
         ]
     },
@@ -41,14 +48,7 @@ const router = createBrowserRouter([
         path: '/auth',
         element: <AuthLayout />,
         children: [
-            {
-                path:'login',
-                element:<Login />
-            },
-            {
-                path:'register',
-                element:<Register />
-            }
+            
         ]
     }
 ]);

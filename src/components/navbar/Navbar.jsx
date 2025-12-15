@@ -47,12 +47,12 @@ export default function Navbar() {
             Cart
           </Link>
 
-          <Link component={RouterLink} to="/auth/login" underline="none" color="inherit"
+          <Link component={RouterLink} to="/login" underline="none" color="inherit"
             sx={{ fontSize: 15, "&:hover": { color: "#555" } }}>
             Login
           </Link>
 
-          <Link component={RouterLink} to="/auth/register" underline="none" color="inherit"
+          <Link component={RouterLink} to="/register" underline="none" color="inherit"
             sx={{ fontSize: 15, "&:hover": { color: "#555" } }}>
             Register
           </Link>

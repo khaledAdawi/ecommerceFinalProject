@@ -1,53 +1,111 @@
-import { Box, Button, Dialog, DialogContent, TextField, Typography } from '@mui/material'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, CircularProgress, Dialog, DialogContent, TextField, Typography } from '@mui/material'
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { LoginSchema } from '../../validations/LoginSchema';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
-  const { register, handleSubmit } = useForm({});
-  
-    const loginForm = async (values) => {
-      console.log(values);
-  
-      try {
-  
-        const response = await axios.post(`https://knowledgeshop.runasp.net/api/Auth/Account/Login`, values);
-        if(response.status == 200){
-          localStorage.setItem("token",response.data.accessToken);
-        }
 
-        console.log(response);
-  
-      } catch (err) {
-        console.log(err.response?.data);
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
+
+  const [serverErrors, setServerErrors] = useState([]);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(LoginSchema),
+    mode: 'onBlur'
+  });
+
+  const loginForm = async (values) => {
+    console.log(values);
+    try {
+      const response = await axios.post(`https://knowledgeshop.runasp.net/api/Auth/Account/Login`, values);
+      if (response.status === 200) {
+        localStorage.setItem("token", response.data.accessToken);
+        setOpen(false);
+        navigate('/');
       }
-  
+
+
+      console.log(response);
+
+    } catch (err) {
+      const data = err.response?.data;
+
+      if (data?.errors) {
+
+        const messages = Object.values(data.errors).flat();
+        setServerErrors(messages);
+      } else if (data?.message) {
+
+        setServerErrors([data.message]);
+      } else {
+        setServerErrors(['Login failed. Please try again.']);
+      }
     }
-  
-  
-  
-    return (
-      <Dialog open={true} fullWidth maxWidth="xs">
-        <DialogContent>
-  
-          <Box component={"form"} onSubmit={handleSubmit(loginForm)}>
-            <Typography variant="h6" align="center" sx={{ mb: 3 }}>
-              LOGIN
-            </Typography>
-  
-            
-            <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined" />
-            <TextField {...register('password')} fullWidth margin="dense" type="password" label="Password" variant="outlined" />
-  
-            <Button variant="contained" type='submit' fullWidth sx={{ mt: 2, py: 1.2 }}>
-              LOGIN
-            </Button>
-  
-          </Box>
-  
-  
-  
-        </DialogContent>
-      </Dialog>
-    )
+
+  }
+  const handleClose = (event, reason) => {
+
+    if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
+      setOpen(false);
+      navigate('/');
+    }
+  };
+
+
+
+
+  return (
+    <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+      <DialogContent>
+
+        <Box component={"form"} onSubmit={handleSubmit(loginForm)}>
+          <Typography variant="h6" align="center" sx={{ mb: 3 }}>
+            LOGIN
+          </Typography>
+
+          {serverErrors.length > 0 ?
+            <Box sx={{
+              backgroundColor: '#fdecea',
+              border: '1px solid #f5c6cb',
+              borderRadius: 2,
+              p: 2,
+              mb: 2,
+            }}
+            >
+              {serverErrors.map((err,index) => (
+                <Typography
+                  key={index}
+                  variant="body2"
+                  sx={{ color: '#b71c1c' }}
+                >
+                  {err}
+                </Typography>
+              ))}
+            </Box>
+            : null}
+
+
+          <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined"
+            error={errors.email} helperText={errors.email?.message}
+          />
+          <TextField {...register('password')} fullWidth margin="dense" type="password" label="Password" variant="outlined"
+            error={errors.password} helperText={errors.password?.message}
+          />
+
+          <Button variant="contained" type='submit' disabled={isSubmitting} fullWidth sx={{ mt: 2, py: 1.2 }}>
+            {isSubmitting ? <CircularProgress /> : 'LOGIN'}
+          </Button>
+
+        </Box>
+
+
+
+      </DialogContent>
+    </Dialog>
+  )
 }

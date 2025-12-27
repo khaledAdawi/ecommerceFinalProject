@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { LoginSchema } from '../../validations/LoginSchema';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function Login() {
@@ -28,36 +28,25 @@ export default function Login() {
         setOpen(false);
         navigate('/');
       }
-
-
       console.log(response);
-
     } catch (err) {
       const data = err.response?.data;
-
       if (data?.errors) {
-
         const messages = Object.values(data.errors).flat();
         setServerErrors(messages);
       } else if (data?.message) {
-
         setServerErrors([data.message]);
       } else {
         setServerErrors(['Login failed. Please try again.']);
       }
     }
-
   }
   const handleClose = (event, reason) => {
-
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       setOpen(false);
       navigate('/');
     }
   };
-
-
-
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
@@ -69,15 +58,8 @@ export default function Login() {
           </Typography>
 
           {serverErrors.length > 0 ?
-            <Box sx={{
-              backgroundColor: '#fdecea',
-              border: '1px solid #f5c6cb',
-              borderRadius: 2,
-              p: 2,
-              mb: 2,
-            }}
-            >
-              {serverErrors.map((err,index) => (
+            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2,}}>
+              {serverErrors.map((err, index) => (
                 <Typography
                   key={index}
                   variant="body2"
@@ -89,22 +71,21 @@ export default function Login() {
             </Box>
             : null}
 
-
           <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined"
             error={errors.email} helperText={errors.email?.message}
           />
           <TextField {...register('password')} fullWidth margin="dense" type="password" label="Password" variant="outlined"
             error={errors.password} helperText={errors.password?.message}
           />
-
           <Button variant="contained" type='submit' disabled={isSubmitting} fullWidth sx={{ mt: 2, py: 1.2 }}>
             {isSubmitting ? <CircularProgress /> : 'LOGIN'}
           </Button>
-
+          <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+            <Link to="/sendCode" style={{ textDecoration: 'none' }}>
+              Forgot your password?
+            </Link>
+          </Typography>
         </Box>
-
-
-
       </DialogContent>
     </Dialog>
   )

@@ -13,7 +13,6 @@ export default function Register() {
 
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-
   const [serverErrors, setServerErrors] = useState([]);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(RegisterSchema),
@@ -29,10 +28,8 @@ export default function Register() {
         setOpen(false);
         navigate('/login');
       }
-
     } catch (err) {
       const data = err.response?.data;
-
       if (data?.errors) {
         const messages = Object.values(data.errors).flat();
         setServerErrors(messages);
@@ -43,9 +40,7 @@ export default function Register() {
       }
     }
   }
-
   const handleClose = (event, reason) => {
-
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       setOpen(false);
       navigate('/');
@@ -62,20 +57,9 @@ export default function Register() {
           </Typography>
 
           {serverErrors.length > 0 ?
-            <Box sx={{
-              backgroundColor: '#fdecea',
-              border: '1px solid #f5c6cb',
-              borderRadius: 2,
-              p: 2,
-              mb: 2,
-            }}
-            >
+            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2,}}>
               {serverErrors.map((err, index) => (
-                <Typography
-                  key={index}
-                  variant="body2"
-                  sx={{ color: '#b71c1c' }}
-                >
+                <Typography key={index} variant="body2" sx={{ color: '#b71c1c' }}>
                   {err}
                 </Typography>
               ))}

@@ -8,6 +8,9 @@ import Register from "./pages/register/Register";
 import Shop from "./pages/shop/Shop";
 import About from "./pages/about/About";
 import Contact from "./pages/Contact/Contact";
+import ForgotPassword from "./pages/login/SendCode";
+import ResetPassword from "./pages/login/ResetPassword";
+import SendCode from "./pages/login/SendCode";
 
 const router = createBrowserRouter([
     {
@@ -36,6 +39,14 @@ const router = createBrowserRouter([
             },{
                 path:'login',
                 element:<Login />
+            },
+            {
+                path:'sendCode',
+                element:<SendCode />
+            },
+            {
+                path:'resetPassword',
+                element:<ResetPassword />
             },
             {
                 path:'register',

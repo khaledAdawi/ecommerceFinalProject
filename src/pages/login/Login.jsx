@@ -8,27 +8,23 @@ import { useState } from 'react';
 
 
 export default function Login() {
-
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const { loginMutation, serverErrors } = useLogin();
-
   const { register, handleSubmit, formState: { errors,isSubmitting }} = useForm({
     resolver: yupResolver(LoginSchema),
     mode: 'onBlur'
   });
-
   const handleClose = (event, reason) => {
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       setOpen(false);
       navigate('/');
     }
   };
-
   const loginForm = async (values) => {
     await loginMutation.mutateAsync(values);
   };
-
+  
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
       <DialogContent>

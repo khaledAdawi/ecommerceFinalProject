@@ -4,41 +4,19 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SendCodeSchema } from "../../validations/SendCodeSchema";
-import axiosInstance from "../../Api/axiosInstance";
+import useSendCode from "../../hooks/useSendCode";
 
 export default function SendCode() {
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
-    const [serverErrors, setServerErrors] = useState([]);
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    const { sendCodeMutation, serverErrors } = useSendCode();
+    const { register, handleSubmit, formState: { errors, isSubmitting },} = useForm({
         resolver: yupResolver(SendCodeSchema),
-        mode: "onBlur"
+        mode: "onBlur",
     });
     const sendCodeForm = async (values) => {
-        setServerErrors([]);
-        try {
-            const response = await axiosInstance.post("/Auth/Account/SendCode", values);
-            console.log(response);
-
-            if (response.status === 200) {
-                localStorage.setItem("resetEmail", values.email);
-                setOpen(false);
-                navigate("/resetPassword");
-            }
-        } catch (err) {
-            const data = err.response?.data;
-
-            if (data?.errors) {
-                const messages = Object.values(data.errors).flat();
-                setServerErrors(messages);
-            } else if (data?.message) {
-                setServerErrors([data.message]);
-            } else {
-                setServerErrors(["Failed to send code. Please try again."]);
-            }
-        }
-    }
-
+        await sendCodeMutation.mutateAsync(values);
+    };
     const handleClose = (event, reason) => {
         if (reason === "backdropClick" || reason === "escapeKeyDown") {
             setOpen(false);

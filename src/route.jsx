@@ -8,49 +8,52 @@ import Register from "./pages/register/Register";
 import Shop from "./pages/shop/Shop";
 import About from "./pages/about/About";
 import Contact from "./pages/Contact/Contact";
-import ForgotPassword from "./pages/login/SendCode";
 import ResetPassword from "./pages/login/ResetPassword";
 import SendCode from "./pages/login/SendCode";
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element:<MainLayout />,
+        element: <MainLayout />,
         children: [
             {
-                path:'home',
-                element:<Home />
+                index: true,
+                element: <Home />
             },
             {
-                path:'cart',
-                element:<Cart />
+                path: "home",
+                element: <Home />
             },
             {
-                path:'shop',
-                element:<Shop />
+                path: 'cart',
+                element: <Cart />
             },
             {
-                path:'about',
-                element:<About />
+                path: 'shop',
+                element: <Shop />
             },
             {
-                path:'contact',
-                element:<Contact />
-            },{
-                path:'login',
-                element:<Login />
+                path: 'about',
+                element: <About />
             },
             {
-                path:'sendCode',
-                element:<SendCode />
+                path: 'contact',
+                element: <Contact />
+            }, {
+                path: 'login',
+                element: <Login />
             },
             {
-                path:'resetPassword',
-                element:<ResetPassword />
+                path: 'sendCode',
+                element: <SendCode />
             },
             {
-                path:'register',
-                element:<Register />
+                path: 'resetPassword',
+                element: <ResetPassword />
+            },
+            {
+                path: 'register',
+                element: <Register />
             }
         ]
     },
@@ -59,7 +62,7 @@ const router = createBrowserRouter([
         path: '/auth',
         element: <AuthLayout />,
         children: [
-            
+
         ]
     }
 ]);

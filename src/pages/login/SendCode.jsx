@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SendCodeSchema } from "../../validations/SendCodeSchema";
-import axios from "axios";
+import axiosInstance from "../../Api/axiosInstance";
 
 export default function SendCode() {
     const [open, setOpen] = useState(true);
@@ -17,7 +17,7 @@ export default function SendCode() {
     const sendCodeForm = async (values) => {
         setServerErrors([]);
         try {
-            const response = await axios.post("https://knowledgeshop.runasp.net/api/Auth/Account/SendCode", values);
+            const response = await axiosInstance.post("/Auth/Account/SendCode", values);
             console.log(response);
 
             if (response.status === 200) {

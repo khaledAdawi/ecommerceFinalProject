@@ -1,11 +1,11 @@
 
 import { Box, Button, CircularProgress, Dialog, DialogContent, TextField, Typography } from '@mui/material'
-import axios from 'axios';
 import { useForm } from 'react-hook-form'
 import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from '../../validations/RegisterSchema';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import axiosInstance from '../../Api/axiosInstance';
 
 
 
@@ -22,7 +22,7 @@ export default function Register() {
   const registerForm = async (values) => {
     console.log(values);
     try {
-      const response = await axios.post(`https://knowledgeshop.runasp.net/api/Auth/Account/Register`, values);
+      const response = await axiosInstance.post(`/Auth/Account/Register`, values);
       console.log(response);
       if (response.status === 200) {
         setOpen(false);

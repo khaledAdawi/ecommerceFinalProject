@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ResetPasswordSchema } from "../../validations/ResetPasswordSchema";
-import axios from "axios";
 import Swal from "sweetalert2";
+import axiosInstance from "../../Api/axiosInstance";
 
 export default function ResetPassword() {
     const [open, setOpen] = useState(true);
@@ -23,8 +23,7 @@ export default function ResetPassword() {
         setServerErrors([]);
 
         try {
-            const response = await axios.patch(
-                "https://knowledgeshop.runasp.net/api/Auth/Account/ResetPassword",
+            const response = await axiosInstance.patch("/Auth/Account/ResetPassword",
                 {
                     email,
                     code: values.code,

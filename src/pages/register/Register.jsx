@@ -5,40 +5,20 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { RegisterSchema } from '../../validations/RegisterSchema';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../Api/axiosInstance';
+import useRegister from '../../hooks/useRegister';
 
 
 
 export default function Register() {
-
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-  const [serverErrors, setServerErrors] = useState([]);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(RegisterSchema),
     mode: 'onBlur'
   });
-
+  const {serverErrors,registerMutation} = useRegister();
   const registerForm = async (values) => {
-    console.log(values);
-    try {
-      const response = await axiosInstance.post(`/Auth/Account/Register`, values);
-      console.log(response);
-      if (response.status === 200) {
-        setOpen(false);
-        navigate('/login');
-      }
-    } catch (err) {
-      const data = err.response?.data;
-      if (data?.errors) {
-        const messages = Object.values(data.errors).flat();
-        setServerErrors(messages);
-      } else if (data?.message) {
-        setServerErrors([data.message]);
-      } else {
-        setServerErrors(['Register failed. Please try again.']);
-      }
-    }
+    await registerMutation.mutateAsync(values);
   }
   const handleClose = (event, reason) => {
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
@@ -46,7 +26,6 @@ export default function Register() {
       navigate('/');
     }
   };
-
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
       <DialogContent>
@@ -57,7 +36,7 @@ export default function Register() {
           </Typography>
 
           {serverErrors.length > 0 ?
-            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2,}}>
+            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2, }}>
               {serverErrors.map((err, index) => (
                 <Typography key={index} variant="body2" sx={{ color: '#b71c1c' }}>
                   {err}

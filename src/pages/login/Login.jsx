@@ -2,53 +2,31 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, CircularProgress, Dialog, DialogContent, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { LoginSchema } from '../../validations/LoginSchema';
-import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axiosInstance from '../../Api/axiosInstance';
-import { AuthContext } from '../../context/AuthContext';
+import useLogin from '../../hooks/useLogin';
+import { useState } from 'react';
 
 
 export default function Login() {
 
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
-  const {setToken,setAccessToken} = useContext(AuthContext);
+  const { loginMutation, serverErrors } = useLogin();
 
-
-  const [serverErrors, setServerErrors] = useState([]);
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, formState: { errors,isSubmitting }} = useForm({
     resolver: yupResolver(LoginSchema),
     mode: 'onBlur'
   });
 
-  const loginForm = async (values) => {
-    console.log(values);
-    try {
-      const response = await axiosInstance.post(`/Auth/Account/Login`, values);
-      if (response.status === 200) {
-        setToken(response.data.accessToken);
-        setAccessToken(response.data.accessToken);
-        setOpen(false);
-        navigate('/home');
-      }
-      console.log(response);
-    } catch (err) {
-      const data = err.response?.data;
-      if (data?.errors) {
-        const messages = Object.values(data.errors).flat();
-        setServerErrors(messages);
-      } else if (data?.message) {
-        setServerErrors([data.message]);
-      } else {
-        setServerErrors(['Login failed. Please try again.']);
-      }
-    }
-  }
   const handleClose = (event, reason) => {
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       setOpen(false);
       navigate('/');
     }
+  };
+
+  const loginForm = async (values) => {
+    await loginMutation.mutateAsync(values);
   };
 
   return (
@@ -61,7 +39,7 @@ export default function Login() {
           </Typography>
 
           {serverErrors.length > 0 ?
-            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2,}}>
+            <Box sx={{ backgroundColor: '#fdecea', border: '1px solid #f5c6cb', borderRadius: 2, p: 2, mb: 2, }}>
               {serverErrors.map((err, index) => (
                 <Typography
                   key={index}

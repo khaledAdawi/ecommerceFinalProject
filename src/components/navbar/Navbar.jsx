@@ -3,10 +3,20 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 export default function Navbar() {
+  const { token, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleLogout = ()=>{
+    logout();
+    navigate('/login');
+
+  }
   return (
     <AppBar
       position="static"
@@ -43,30 +53,79 @@ export default function Navbar() {
 
         <Typography
           variant="h6"
-          sx={{ fontWeight: 600, letterSpacing: 6, textAlign: "center",}}>
+          sx={{ fontWeight: 600, letterSpacing: 6, textAlign: "center", }}>
           KASHOP
         </Typography>
 
-        
-        <Box sx={{ display: "flex", gap: 4, justifyContent: "flex-end",}}>
-          {["Cart", "Login", "Register"].map((item) => (
-            <Link
-              key={item}
-              component={RouterLink}
-              to={`/${item.toLowerCase()}`}
-              underline="none"
-              color="inherit"
-              sx={{
-                fontSize: 13,
-                letterSpacing: 1,
-                fontWeight: 500,
-                "&:hover": { opacity: 0.6 },
-              }}
-            >
-              {item.toUpperCase()}
-            </Link>
-          ))}
+
+        <Box sx={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
+
+          {token ? (
+            <>
+              <Link
+                component={RouterLink}
+                to="/cart"
+                underline="none"
+                color="inherit"
+                sx={{
+                  fontSize: 13,
+                  letterSpacing: 1,
+                  fontWeight: 500,
+                  "&:hover": { opacity: 0.6 },
+                }}
+              >
+                CART
+              </Link>
+
+              <Typography
+                onClick={handleLogout}
+                sx={{
+                  cursor: "pointer",
+                  fontSize: 13,
+                  letterSpacing: 1,
+                  fontWeight: 500,
+                  "&:hover": { opacity: 0.6 },
+                }}
+              >
+                LOGOUT
+              </Typography>
+            </>
+          ) : (
+            <>
+              <Link
+                component={RouterLink}
+                to="/login"
+                underline="none"
+                color="inherit"
+                sx={{
+                  fontSize: 13,
+                  letterSpacing: 1,
+                  fontWeight: 500,
+                  "&:hover": { opacity: 0.6 },
+                }}
+              >
+                LOGIN
+              </Link>
+
+              <Link
+                component={RouterLink}
+                to="/register"
+                underline="none"
+                color="inherit"
+                sx={{
+                  fontSize: 13,
+                  letterSpacing: 1,
+                  fontWeight: 500,
+                  "&:hover": { opacity: 0.6 },
+                }}
+              >
+                REGISTER
+              </Link>
+            </>
+          )}
+
         </Box>
+
       </Toolbar>
     </AppBar>
   );

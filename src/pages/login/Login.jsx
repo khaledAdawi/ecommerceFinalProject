@@ -2,15 +2,17 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, CircularProgress, Dialog, DialogContent, TextField, Typography } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { LoginSchema } from '../../validations/LoginSchema';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../../Api/axiosInstance';
+import { AuthContext } from '../../context/AuthContext';
 
 
 export default function Login() {
 
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
+  const {setToken,setAccessToken} = useContext(AuthContext);
 
 
   const [serverErrors, setServerErrors] = useState([]);
@@ -24,9 +26,10 @@ export default function Login() {
     try {
       const response = await axiosInstance.post(`/Auth/Account/Login`, values);
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.accessToken);
+        setToken(response.data.accessToken);
+        setAccessToken(response.data.accessToken);
         setOpen(false);
-        navigate('/');
+        navigate('/home');
       }
       console.log(response);
     } catch (err) {

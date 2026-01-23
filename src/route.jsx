@@ -7,9 +7,10 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Shop from "./pages/shop/Shop";
 import About from "./pages/about/About";
-import Contact from "./pages/Contact/Contact";
+import Contact from "./pages/contact/Contact";
 import ResetPassword from "./pages/login/ResetPassword";
 import SendCode from "./pages/login/SendCode";
+import ProtectedRouter from "./ProtectedRouter";
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,10 @@ const router = createBrowserRouter([
             },
             {
                 path: 'cart',
-                element: <Cart />
+                element:
+                <ProtectedRouter>
+                    <Cart />
+                </ProtectedRouter>
             },
             {
                 path: 'shop',

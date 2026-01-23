@@ -1,12 +1,15 @@
 import { useMutation } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../Api/axiosInstance";
-import { AuthContext } from "../context/AuthContext";
+import useAuthStore from "../store/useAuthStore";
+import { jwtDecode } from "jwt-decode";
+
 
 export default function useLogin() {
     const navigate = useNavigate();
-    const { setToken, setAccessToken } = useContext(AuthContext);
+    const setToken = useAuthStore((state)=>state.setToken);
+    const setUser = useAuthStore((state)=>state.setUser);
     const [serverErrors, setServerErrors] = useState([]);
 
     const loginMutation = useMutation({
@@ -15,8 +18,14 @@ export default function useLogin() {
         },
         onSuccess: (response) => {
             const token = response.data.accessToken;
+            const decoded = jwtDecode(token);
+            console.log(decoded);
+            const user = {
+                name:decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+                role:decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+            }
             setToken(token);
-            setAccessToken(token);
+            setUser(user);
             navigate("/home");
         },
         onError: (err) => {

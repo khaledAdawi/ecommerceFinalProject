@@ -1,6 +1,8 @@
 import { Box, Container, Grid, Typography, Button, Rating } from "@mui/material";
 
 export default function ProductDetails() {
+
+    
     return (
         <Box sx={{ py: 8 }}>
             <Container maxWidth="lg">

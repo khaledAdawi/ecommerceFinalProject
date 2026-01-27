@@ -11,6 +11,7 @@ import Contact from "./pages/contact/Contact";
 import ResetPassword from "./pages/login/ResetPassword";
 import SendCode from "./pages/login/SendCode";
 import ProtectedRouter from "./ProtectedRouter";
+import ProductDetails from "./pages/product/ProductDetails";
 
 const router = createBrowserRouter([
     {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
             {
                 path: 'shop',
                 element: <Shop />
+            },
+            {
+                path: 'productDetails/:id',
+                element: <ProductDetails />
             },
             {
                 path: 'about',

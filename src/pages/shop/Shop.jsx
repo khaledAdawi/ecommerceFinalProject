@@ -5,7 +5,6 @@ import ProductDetails from '../product/ProductDetails'
 export default function Shop() {
   return (
     <>
-    <ProductDetails/>
     <Products/>
     </>
   )

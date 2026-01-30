@@ -231,6 +231,7 @@ export default function CartItem() {
               py: 1.5,
               "&:hover": { backgroundColor: "#222" },
             }}
+            onClick={() => navigate("/checkout")}
           >
             {t("Proceed to Checkout")}
           </Button>

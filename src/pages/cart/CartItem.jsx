@@ -7,13 +7,14 @@ import useUpdateCartItem from "../../hooks/useUpdateCartItem";
 import Swal from "sweetalert2";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-
+import { useTranslation } from "react-i18next";
 
 export default function CartItem() {
   const navigate = useNavigate();
   const { data, isError, isLoading } = useCart();
   const { mutate: removeItem, isPending } = useRemoveFromCart();
   const { mutate: updateItem, isPending: updatePending } = useUpdateCartItem();
+  const {t} = useTranslation();
 
   if (isLoading) return <CircularProgress sx={{ m: 5 }} />;
   if (isError) return <Typography>Error loading cart</Typography>;
@@ -25,12 +26,12 @@ export default function CartItem() {
     if (action === "-") {
       if (item.count === 1) {
         Swal.fire({
-          title: "Remove item?",
-          text: "This item quantity is 1. Do you want to remove it from the cart?",
+          title: t("Remove item?"),
+          text: t("This item quantity is 1. Do you want to remove it from the cart?"),
           icon: "warning",
           showCancelButton: true,
-          confirmButtonText: "Yes, remove it",
-          cancelButtonText: "No, keep it",
+          confirmButtonText: t("Yes, remove it"),
+          cancelButtonText: t("No, keep it"),
         }).then((result) => {
           if (result.isConfirmed) removeItem(productId);
         });
@@ -50,11 +51,11 @@ export default function CartItem() {
       <Container maxWidth="md">
         <Box sx={{ mt: 10, textAlign: "center" }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            YOUR CART IS CURRENTLY EMPTY.
+            {t("YOUR CART IS CURRENTLY EMPTY.")}
           </Typography>
 
           <Typography sx={{ mb: 4, color: "text.secondary" }}>
-            Why not return to our shop and start shopping?
+            {t("Why not return to our shop and start shopping?")}
           </Typography>
 
           <Button
@@ -62,7 +63,7 @@ export default function CartItem() {
             sx={{ m: 5, bgcolor: "#000", "&:hover": { bgcolor: "#222" } }}
             onClick={() => navigate("/shop")}
           >
-            RETURN TO SHOP
+            {t("RETURN TO SHOP")}
           </Button>
         </Box>
       </Container>
@@ -77,7 +78,7 @@ export default function CartItem() {
         <Box sx={{ flex: 2 }}>
 
           <Typography variant="h6" sx={{ mb: 3, letterSpacing: 1 }}>
-            SHOPPING CART
+            {t("SHOPPING CART")}
           </Typography>
 
           {data.items.map((item) => (
@@ -169,14 +170,14 @@ export default function CartItem() {
                   size="small"
                   sx={{ fontSize: 12 }}
                 >
-                  UPDATE
+                  {t("Update")}
                 </Button>
 
                 <Button variant="outlined" size="small" color="error" sx={{ fontSize: 12 }}
                   onClick={() => removeItem(item.productId)}
                   disabled={isPending}
                 >
-                  REMOVE
+                  {t("Remove")}
                 </Button>
               </Box>
             </Box>
@@ -194,18 +195,18 @@ export default function CartItem() {
           }}
         >
           <Typography variant="h6" sx={{ mb: 3 }}>
-            CART TOTALS
+            {t("CART TOTALS")}
           </Typography>
 
           <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-            <Typography>Subtotal</Typography>
+            <Typography>{t("Subtotal")}</Typography>
             <Typography>${data.cartTotal}</Typography>
           </Box>
 
           <Box sx={{ mb: 2 }}>
-            <Typography>Shipping</Typography>
+            <Typography>{t("Shipping")}</Typography>
             <Typography variant="body2" color="text.secondary">
-              Free shipping
+              {t("Free Shipping")}
             </Typography>
           </Box>
 
@@ -218,7 +219,7 @@ export default function CartItem() {
               mb: 3,
             }}
           >
-            <Typography>TOTAL</Typography>
+            <Typography>{t("Total")}</Typography>
             <Typography>${data.cartTotal}</Typography>
           </Box>
 
@@ -231,7 +232,7 @@ export default function CartItem() {
               "&:hover": { backgroundColor: "#222" },
             }}
           >
-            PROCEED TO CHECKOUT
+            {t("Proceed to Checkout")}
           </Button>
         </Box>
 

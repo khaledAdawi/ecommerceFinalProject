@@ -2,9 +2,9 @@ import { Box, Grid, Typography, Button, Rating, CircularProgress } from "@mui/ma
 import {useParams } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
 import useAddToCart from "../../hooks/useAddToCart";
-
+import { useTranslation } from "react-i18next";
 export default function ProductDetails() {
-    
+    const {t} = useTranslation();
     const { id } = useParams();
     const { data, isLoading, isError } = useProductDetails(id);
     const { mutate: addToCart, isPending } = useAddToCart();
@@ -13,10 +13,10 @@ export default function ProductDetails() {
         return <Box sx={{ py: 10, display: "flex", justifyContent: "center" }}><CircularProgress /></Box>;
 
     if (isError)
-        return <Typography align="center" sx={{ py: 10 }}>Failed to load product</Typography>;
+        return <Typography align="center" sx={{ py: 10 }}>{t("Failed to load product")}</Typography>;
 
     if (!data)
-        return <Typography align="center" sx={{ py: 10 }}>Product not found</Typography>;
+        return <Typography align="center" sx={{ py: 10 }}>{t("Product not found")}</Typography>;
 
     return (
         <Box sx={{ py: 8 }}>
@@ -44,7 +44,7 @@ export default function ProductDetails() {
                     <Typography variant="h6" sx={{ color: "text.secondary", mb: 2 }}>
                         ${data.price}
                     </Typography>
-                    <Typography variant="h6" sx={{ color: "text.secondary", mb: 2 }}>Available Quantity: {data.quantity}</Typography>
+                    <Typography variant="h6" sx={{ color: "text.secondary", mb: 2 }}>{t("Available Quantity")}: {data.quantity}</Typography>
                     <Rating value={data.rate} readOnly sx={{ mb: 2 }} />
 
                     <Typography sx={{ mb: 4, color: "text.secondary", lineHeight: 1.7 }}>
@@ -62,7 +62,7 @@ export default function ProductDetails() {
                         }
                         
                     >
-                        ADD TO CART
+                        {t("ADD TO CART")}
                     </Button>
 
 
@@ -70,7 +70,7 @@ export default function ProductDetails() {
                         <Box sx={{ mt: 5 }}>
 
                             <Typography variant="h6" sx={{ mb: 2 }}>
-                                Reviews
+                                {t("Reviews")}
                             </Typography>
 
                             {data.reviews.map((review, index) => (

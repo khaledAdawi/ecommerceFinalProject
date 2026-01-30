@@ -1,8 +1,9 @@
 
 import { Box, Card, CircularProgress, Container, Grid, Typography } from '@mui/material';
 import { useCategories } from '../../hooks/useCategories';
-
+import { useTranslation } from 'react-i18next';
 export default function Categories() {
+    const {t} = useTranslation();
     const { isLoading, isError, data } = useCategories();
     
     if (isLoading) return <CircularProgress />
@@ -11,7 +12,7 @@ export default function Categories() {
         <>
             <Box sx={{ py: 6 }}>
                 <Typography variant="h4" align="center" sx={{ fontWeight: 500, mb: 4, letterSpacing: 1 }}>
-                    Categories
+                    {t("Categories")}
                 </Typography>
 
                 <Container maxWidth="lg">

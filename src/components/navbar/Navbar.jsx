@@ -5,17 +5,25 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/useAuthStore";
+import { useTranslation } from "react-i18next";
+import LanguageIcon from '@mui/icons-material/Language';
 
 export default function Navbar() {
   const token = useAuthStore((state) => state.token);
   const logout = useAuthStore((state) => state.logout);
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const handleLogout = () => {
     logout();
     navigate("/login");
   };
+
+  const toggleLanguage = () => {
+    const lng = i18n.language === "en" ? "ar" : "en";
+    i18n.changeLanguage(lng);
+  }
 
   return (
     <AppBar position="static" elevation={0}
@@ -25,13 +33,15 @@ export default function Navbar() {
 
 
         <Box sx={{ display: "flex", gap: 4 }}>
-          {["Home", "Shop", "About", "Contact"].map((item) => (
-            <Link key={item} component={RouterLink} to={item === "Home" ? "/" : `/${item.toLowerCase()}`} underline="none" color="inherit"
-              sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
-            >
-              {item.toUpperCase()}
-            </Link>
-          ))}
+          {[{"Home": t("Home")}, {"Shop": t("Shop")}, {"About": t("About")}, {"Contact": t("Contact")}].map((item) => {
+            const key = Object.keys(item)[0];
+            return (
+              <Link key={key} component={RouterLink} to={key === "Home" ? "/" : `/${key.toLowerCase()}`} underline="none" color="inherit"
+                sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
+              >
+                {item[key]}
+              </Link>
+          )})}
         </Box>
 
 
@@ -49,33 +59,37 @@ export default function Navbar() {
               <Link component={RouterLink} to="/cart" underline="none" color="inherit"
                 sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
               >
-                CART
+                {t("Cart")}
               </Link>
 
               <Typography
                 sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, color: "#555" }}
               >
-                Hello {user?.name}
+                {t("Hello")} {user?.name}
               </Typography>
 
               <Typography onClick={handleLogout}
                 sx={{ cursor: "pointer", fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
               >
-                LOGOUT
+                {t("Logout")}
               </Typography>
+
+              <LanguageIcon onClick={toggleLanguage}
+                sx={{ cursor: "pointer", fontSize: 20, marginTop: "4px", "&:hover": { opacity: 0.6 } }}
+              />
             </>
           ) : (
             <>
               <Link component={RouterLink} to="/login" underline="none" color="inherit"
                 sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
               >
-                LOGIN
+                {t("Login")}
               </Link>
 
               <Link component={RouterLink} to="/register" underline="none" color="inherit"
                 sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
               >
-                REGISTER
+                {t("Register")}
               </Link>
             </>
           )}

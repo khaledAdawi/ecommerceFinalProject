@@ -1,8 +1,9 @@
 import { Box, Card, CardContent, CardMedia, Container, Grid, Typography, CircularProgress } from "@mui/material";
 import { useProducts } from "../../hooks/useProducts";
 import { Link } from "react-router-dom";
-
+import { useTranslation } from "react-i18next";
 export default function Products() {
+    const {t} = useTranslation();
     const { isLoading, isError, data } = useProducts();
     if (isLoading)
         return <Box sx={{ py: 10, display: "flex", justifyContent: "center" }}>
@@ -10,13 +11,13 @@ export default function Products() {
         </Box>;
 
     if (isError)
-        return <Typography align="center" sx={{ py: 10 }}>Failed to load products</Typography>;
+        return <Typography align="center" sx={{ py: 10 }}>{t("Failed to load products")}</Typography>;
 
     return (
         <Box sx={{ py: 6 }}>
             <Typography variant="h4" align="center"
                 sx={{ fontWeight: 500, mb: 4, letterSpacing: 1 }}>
-                Products
+                {t("Products")}
             </Typography>
 
             <Container maxWidth="lg">

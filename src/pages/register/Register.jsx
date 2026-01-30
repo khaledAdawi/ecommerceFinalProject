@@ -6,10 +6,11 @@ import { RegisterSchema } from '../../validations/RegisterSchema';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useRegister from '../../hooks/useRegister';
-
+import { useTranslation } from 'react-i18next';
 
 
 export default function Register() {
+  const {t} = useTranslation();
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
@@ -32,7 +33,7 @@ export default function Register() {
 
         <Box component={"form"} onSubmit={handleSubmit(registerForm)}>
           <Typography variant="h6" align="center" sx={{ mb: 3 }}>
-            REGISTER
+            {t("REGISTER")}
           </Typography>
 
           {serverErrors.length > 0 ?
@@ -45,30 +46,30 @@ export default function Register() {
             </Box>
             : null}
 
-          <TextField {...register('userName')} fullWidth margin="dense" label="User Name" variant="outlined"
+          <TextField {...register('userName')} fullWidth margin="dense" label={t("User Name")} variant="outlined"
             error={errors.userName} helperText={errors.userName?.message}
           />
-          <TextField {...register('fullName')} fullWidth margin="dense" label="Full Name" variant="outlined"
+          <TextField {...register('fullName')} fullWidth margin="dense" label={t("Full Name")} variant="outlined"
             error={errors.fullName} helperText={errors.fullName?.message}
           />
-          <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined"
+          <TextField {...register('email')} fullWidth margin="dense" label={t("Email")} variant="outlined"
             error={errors.email} helperText={errors.email?.message}
           />
-          <TextField {...register('password')} fullWidth margin="dense" type="password" label="Password" variant="outlined"
+          <TextField {...register('password')} fullWidth margin="dense" type="password" label={t("Password")} variant="outlined"
             error={errors.password} helperText={errors.password?.message}
           />
-          <TextField {...register('phoneNumber')} fullWidth margin="dense" label="Phone Number" variant="outlined"
+          <TextField {...register('phoneNumber')} fullWidth margin="dense" label={t("Phone Number")} variant="outlined"
             error={errors.phoneNumber} helperText={errors.phoneNumber?.message}
           />
           <Button variant="contained" type='submit' disabled={isSubmitting} fullWidth sx={{ mt: 2, py: 1.2 }}>
-            {isSubmitting ? <CircularProgress /> : 'REGISTER'}
+            {isSubmitting ? <CircularProgress /> : t("REGISTER")}
           </Button>
           <Typography
             variant="body2"
             align="center"
             sx={{ mt: 2 }}
           >
-            Do you have an account?{' '}
+            {t("Do you have an account?")}{' '}
             <Link
               to="/login"
               style={{
@@ -77,7 +78,7 @@ export default function Register() {
                 fontWeight: 500,
               }}
             >
-              Login
+              {t("Login")}
             </Link>
           </Typography>
         </Box>

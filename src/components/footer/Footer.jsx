@@ -1,32 +1,35 @@
 import styles from "./footer.module.css";
-
+import { useTranslation } from "react-i18next";
 export default function Footer() {
+
+  const {t} = useTranslation();
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerCols}>
 
         <div className={styles.col}>
-          <h4>CUSTOMER SERVICE</h4>
+          <h4>{t("Customer Service")}</h4>
           <ul>
-            <li>Help & Contact Us</li>
-            <li>Returns & Refunds</li>
-            <li>Online Stores</li>
-            <li>Terms & Conditions</li>
+            <li>{t("Help & Contact Us")}</li>
+            <li>{t("Returns & Refunds")}</li>
+            <li>{t("Online Stores")}</li>
+            <li>{t("Terms & Conditions")}</li>
           </ul>
         </div>
 
         <div className={styles.col}>
-          <h4>COMPANY</h4>
+          <h4>{t("Company")}</h4>
           <ul>
-            <li>What We Do</li>
-            <li>Available Services</li>
-            <li>Latest Posts</li>
-            <li>FAQs</li>
+            <li>{t("What We Do")}</li>
+            <li>{t("Available Services")}</li>
+            <li>{t("Latest Posts")}</li>
+            <li>{t("FAQs")}</li>
           </ul>
         </div>
 
         <div className={styles.col}>
-          <h4>SOCIAL MEDIA</h4>
+          <h4>{t("Social Media")}</h4>
           <ul>
             <li>Twitter</li>
             <li>Instagram</li>
@@ -36,12 +39,12 @@ export default function Footer() {
         </div>
 
         <div className={styles.col}>
-          <h4>PROFILE</h4>
+          <h4>{t("PROFILE")}</h4>
           <ul>
-            <li>My Account</li>
-            <li>Checkout</li>
-            <li>Order Tracking</li>
-            <li>Help & Support</li>
+            <li>{t("My Account")}</li>
+            <li>{t("Checkout")}</li>
+            <li>{t("Order Tracking")}</li>
+            <li>{t("Help & Support")}</li>
           </ul>
         </div>
 

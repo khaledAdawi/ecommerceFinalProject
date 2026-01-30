@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, Button, Typography, Grid, Stack, CardMedia } from "@mui/material";
 import aboutSectionImg from "../../assets/about/aboutSection.jpg";
-
+import { useTranslation } from "react-i18next";
 export default function AboutTabs() {
     const [active, setActive] = useState("about");
-
+    const { t} = useTranslation();
     return (
         <Box sx={{ px: "10%", py: 10 }}>
             <Grid sx={{
@@ -47,27 +47,24 @@ export default function AboutTabs() {
 
                         {active === "about" && (
                             <Typography color="text.secondary">
-                                Kashop is a modern eCommerce platform focused on simplicity,
-                                quality products, and smooth user experience.
+                                {t("Kashop is a modern eCommerce platform focused on simplicity, quality products, and smooth user experience.")}
                             </Typography>
                         )}
 
                         {active === "services" && (
                             <Typography color="text.secondary">
-                                We provide fast delivery, secure payments, and customer-first
-                                support services.
+                                {t("We provide fast delivery, secure payments, and customer-first support services.")}
                             </Typography>
                         )}
 
                         {active === "history" && (
                             <Typography color="text.secondary">
-                                Founded in 2026, Kashop started as a university project and
-                                evolved into a full eCommerce system.
+                                {t("Founded in 2026, Kashop started as a university project and evolved into a full eCommerce system.")}
                             </Typography>
                         )}
 
                         <Typography sx={{ cursor: "pointer", fontSize: 13 }}>
-                            LEARN MORE →
+                            {t("LEARN MORE →")}
                         </Typography>
 
                     </Stack>

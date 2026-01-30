@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SendCodeSchema } from "../../validations/SendCodeSchema";
 import useSendCode from "../../hooks/useSendCode";
-
+import { useTranslation } from "react-i18next";
 export default function SendCode() {
     const [open, setOpen] = useState(true);
     const navigate = useNavigate();
@@ -14,6 +14,7 @@ export default function SendCode() {
         resolver: yupResolver(SendCodeSchema),
         mode: "onBlur",
     });
+    const {t} = useTranslation();
     const sendCodeForm = async (values) => {
         await sendCodeMutation.mutateAsync(values);
     };
@@ -29,7 +30,7 @@ export default function SendCode() {
             <DialogContent>
                 <Box component="form" onSubmit={handleSubmit(sendCodeForm)}>
                     <Typography variant="h6" align="center" sx={{ mb: 1 }}>
-                        FORGOT PASSWORD
+                        {t("FORGOT PASSWORD")}
                     </Typography>
 
                     {serverErrors.length > 0 ? (
@@ -43,13 +44,13 @@ export default function SendCode() {
                     ) : null}
 
                     <Typography variant="body2" align="center" sx={{ mb: 3, color: "text.secondary" }}>
-                        Enter your email and we'll send you a verification code.
+                        {t("Enter your email and we'll send you a verification code.")}
                     </Typography>
 
-                    <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined"
+                    <TextField {...register('email')} fullWidth margin="dense" label={t("Email")} variant="outlined"
                         error={errors.email} helperText={errors.email?.message} />
                     <Button variant="contained" type="submit" disabled={isSubmitting} fullWidth sx={{ mt: 2, py: 1.2 }}>
-                        {isSubmitting ? <CircularProgress /> : "SEND CODE"}
+                        {isSubmitting ? <CircularProgress /> : t("SEND CODE")}
                     </Button>
                 </Box>
             </DialogContent>

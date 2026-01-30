@@ -5,7 +5,7 @@ import { LoginSchema } from '../../validations/LoginSchema';
 import { Link, useNavigate } from 'react-router-dom';
 import useLogin from '../../hooks/useLogin';
 import { useState } from 'react';
-
+import { useTranslation } from 'react-i18next';
 
 export default function Login() {
   const [open, setOpen] = useState(true);
@@ -15,6 +15,7 @@ export default function Login() {
     resolver: yupResolver(LoginSchema),
     mode: 'onBlur'
   });
+  const {t} = useTranslation();
   const handleClose = (event, reason) => {
     if (reason === 'backdropClick' || reason === 'escapeKeyDown') {
       setOpen(false);
@@ -31,7 +32,7 @@ export default function Login() {
 
         <Box component={"form"} onSubmit={handleSubmit(loginForm)}>
           <Typography variant="h6" align="center" sx={{ mb: 3 }}>
-            LOGIN
+            {t("LOGIN")}
           </Typography>
 
           {serverErrors.length > 0 ?
@@ -48,18 +49,18 @@ export default function Login() {
             </Box>
             : null}
 
-          <TextField {...register('email')} fullWidth margin="dense" label="Email" variant="outlined"
+          <TextField {...register('email')} fullWidth margin="dense" label={t("Email")} variant="outlined"
             error={errors.email} helperText={errors.email?.message}
           />
-          <TextField {...register('password')} fullWidth margin="dense" type="password" label="Password" variant="outlined"
+          <TextField {...register('password')} fullWidth margin="dense" type="password" label={t("Password")} variant="outlined"
             error={errors.password} helperText={errors.password?.message}
           />
           <Button variant="contained" type='submit' disabled={isSubmitting} fullWidth sx={{ mt: 2, py: 1.2 }}>
-            {isSubmitting ? <CircularProgress /> : 'LOGIN'}
+            {isSubmitting ? <CircularProgress /> : t("LOGIN")}
           </Button>
           <Typography variant="body2" align="center" sx={{ mt: 2 }}>
             <Link to="/sendCode" style={{ textDecoration: 'none' }}>
-              Forgot your password?
+              {t("Forgot your password?")}
             </Link>
           </Typography>
         </Box>

@@ -51,7 +51,7 @@ export default function CartItem() {
       <Container maxWidth="md">
         <Box sx={{ mt: 10, textAlign: "center" }}>
           <Typography variant="h6" sx={{ mb: 2 }}>
-            {t("YOUR CART IS CURRENTLY EMPTY.")}
+            {t("YOUR CART IS CURRENTLY EMPTY")}
           </Typography>
 
           <Typography sx={{ mb: 4, color: "text.secondary" }}>
@@ -63,7 +63,7 @@ export default function CartItem() {
             sx={{ m: 5, bgcolor: "#000", "&:hover": { bgcolor: "#222" } }}
             onClick={() => navigate("/shop")}
           >
-            {t("RETURN TO SHOP")}
+            {t("Return to Shop")}
           </Button>
         </Box>
       </Container>

@@ -90,6 +90,7 @@ i18n.use(initReactI18next).init({
                 "About": "من نحن",
                 "Contact": "تواصل معنا",
                 "Cart": "السلة",
+                "Your Cart": "سلتك",
                 "Login": "تسجيل الدخول",
                 "Logout": "تسجيل الخروج",
                 "Hello": "مرحباً",
@@ -107,7 +108,7 @@ i18n.use(initReactI18next).init({
                 "Reviews": "التقييمات",
                 "Customer Reviews": "آراء العملاء",
                 "SHOPPING CART": "سلة التسوق",
-                "Your cart is currently empty.": "سلة التسوق فارغة حالياً.",
+                "YOUR CART IS CURRENTLY EMPTY": "سلة التسوق فارغة حالياً.",
                 "Why not return to our shop and start shopping?":
                     "لماذا لا تعود إلى المتجر وتبدأ التسوق؟",
                 "Return to Shop": "العودة إلى المتجر",

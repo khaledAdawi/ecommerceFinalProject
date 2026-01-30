@@ -7,6 +7,10 @@ import { Link as RouterLink, useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/useAuthStore";
 import { useTranslation } from "react-i18next";
 import LanguageIcon from '@mui/icons-material/Language';
+import NightlightIcon from '@mui/icons-material/Nightlight';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import useThemeStore from "../../store/useThemeStore";
+import { IconButton } from "@mui/material";
 
 export default function Navbar() {
   const token = useAuthStore((state) => state.token);
@@ -14,6 +18,7 @@ export default function Navbar() {
   const user = useAuthStore((state) => state.user);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { mode, toggleTheme } = useThemeStore();
 
   const handleLogout = () => {
     logout();
@@ -27,13 +32,18 @@ export default function Navbar() {
 
   return (
     <AppBar position="static" elevation={0}
-      sx={{ backgroundColor: "white", color: "black", borderBottom: "1px solid #eee" }}
+      sx={{
+        backgroundColor: "background.paper",
+        color: "text.primary",
+        borderBottom: "1px solid",
+        borderColor: "divider",
+      }}
     >
       <Toolbar sx={{ display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", py: 2 }}>
 
 
-        <Box sx={{ display: "flex", gap: 4 }}>
-          {[{"Home": t("Home")}, {"Shop": t("Shop")}, {"About": t("About")}, {"Contact": t("Contact")}].map((item) => {
+        <Box sx={{ alignItems: "center", display: "flex", gap: 4 }}>
+          {[{ "Home": t("Home") }, { "Shop": t("Shop") }, { "About": t("About") }, { "Contact": t("Contact") }].map((item) => {
             const key = Object.keys(item)[0];
             return (
               <Link key={key} component={RouterLink} to={key === "Home" ? "/" : `/${key.toLowerCase()}`} underline="none" color="inherit"
@@ -41,7 +51,8 @@ export default function Navbar() {
               >
                 {item[key]}
               </Link>
-          )})}
+            )
+          })}
         </Box>
 
 
@@ -52,7 +63,8 @@ export default function Navbar() {
         </Typography>
 
 
-        <Box sx={{ display: "flex", gap: 4, justifyContent: "flex-end" }}>
+        <Box sx={{ alignItems: "center", display: "flex", gap: 4, justifyContent: "flex-end" }}>
+
 
           {token ? (
             <>
@@ -74,11 +86,11 @@ export default function Navbar() {
                 {t("Logout")}
               </Typography>
 
-              <LanguageIcon onClick={toggleLanguage}
-                sx={{ cursor: "pointer", fontSize: 20, marginTop: "4px", "&:hover": { opacity: 0.6 } }}
-              />
+
+
             </>
           ) : (
+
             <>
               <Link component={RouterLink} to="/login" underline="none" color="inherit"
                 sx={{ fontSize: 13, letterSpacing: 1, fontWeight: 500, "&:hover": { opacity: 0.6 } }}
@@ -91,8 +103,16 @@ export default function Navbar() {
               >
                 {t("Register")}
               </Link>
+
             </>
           )}
+          <IconButton onClick={toggleLanguage}>
+                <LanguageIcon />
+              </IconButton>
+
+              <IconButton onClick={toggleTheme}>
+                {mode === "light" ? <NightlightIcon /> : <WbSunnyIcon />}
+              </IconButton>
         </Box>
 
       </Toolbar>

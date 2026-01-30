@@ -1,9 +1,11 @@
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axiosAuthInstance from "../Api/axiosAuthInstance";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export default function useAddToCart() {
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
 
     const addToCartMutation = useMutation({
         mutationFn: async ({ ProductId, Count }) => {
@@ -28,7 +30,7 @@ export default function useAddToCart() {
                 },
             });
 
-            console.log("Invalidating queries...");
+            navigate("/cart");
             queryClient.invalidateQueries({ queryKey: ["carts"] });
         },
     });

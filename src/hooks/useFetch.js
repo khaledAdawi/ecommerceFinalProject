@@ -5,7 +5,7 @@ import axiosInstance from '../Api/axiosInstance';
 export default function useFetch(queryKey, url , instance = axiosInstance) {
     const fetchData = async () => {
         const response = await instance.get(url);
-        console.log("API Response:", response.data); 
+        console.log(response.data)
         return response.data?.response || response.data || []; 
     }
 

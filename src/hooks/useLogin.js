@@ -19,7 +19,6 @@ export default function useLogin() {
         onSuccess: (response) => {
             const token = response.data.accessToken;
             const decoded = jwtDecode(token);
-            console.log(decoded);
             const user = {
                 name:decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
                 role:decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],

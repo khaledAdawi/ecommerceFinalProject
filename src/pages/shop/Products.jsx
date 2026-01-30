@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 export default function Products() {
     const { isLoading, isError, data } = useProducts();
-    console.log(data);
     if (isLoading)
         return <Box sx={{ py: 10, display: "flex", justifyContent: "center" }}>
             <CircularProgress />

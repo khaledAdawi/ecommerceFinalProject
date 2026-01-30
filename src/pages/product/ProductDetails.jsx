@@ -1,12 +1,13 @@
 import { Box, Grid, Typography, Button, Rating, CircularProgress } from "@mui/material";
-import { useParams } from "react-router-dom";
+import {useParams } from "react-router-dom";
 import useProductDetails from "../../hooks/useProductDetails";
+import useAddToCart from "../../hooks/useAddToCart";
 
 export default function ProductDetails() {
-
+    
     const { id } = useParams();
     const { data, isLoading, isError } = useProductDetails(id);
-    console.log(data);
+    const { mutate: addToCart, isPending } = useAddToCart();
 
     if (isLoading)
         return <Box sx={{ py: 10, display: "flex", justifyContent: "center" }}><CircularProgress /></Box>;
@@ -21,7 +22,7 @@ export default function ProductDetails() {
         <Box sx={{ py: 8 }}>
             <Grid container spacing={6} >
 
-                
+
                 <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 5 }}>
                     <Box
                         component="img"
@@ -30,10 +31,10 @@ export default function ProductDetails() {
                         sx={{ width: "100%", backgroundColor: "#f7f7f7", borderRadius: 2 }}
                     />
 
-                    
+
                 </Grid>
 
-                
+
                 <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 7 }}>
 
                     <Typography variant="h4" sx={{ mb: 1 }}>
@@ -53,11 +54,18 @@ export default function ProductDetails() {
                     <Button
                         variant="contained"
                         sx={{ backgroundColor: "#000", color: "#fff", px: 5, py: 1.5, "&:hover": { backgroundColor: "#222" } }}
+                        disabled={isPending}
+                        onClick={() =>{
+                            addToCart({ ProductId: data.id, Count: 1 })
+                            
+                        }
+                        }
+                        
                     >
                         ADD TO CART
                     </Button>
 
-                    
+
                     {data.reviews?.length > 0 && (
                         <Box sx={{ mt: 5 }}>
 
@@ -73,7 +81,7 @@ export default function ProductDetails() {
                                     </Typography>
 
                                     <Rating value={review.rating} readOnly size="small" />
-                                    
+
                                     <Typography sx={{ color: "text.secondary", fontSize: 14 }}>
                                         {review.comment}
                                     </Typography>

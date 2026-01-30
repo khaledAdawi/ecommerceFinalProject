@@ -1,9 +1,13 @@
-import React from 'react'
+import AboutHero from "./AboutHero";
+import AboutTabs from "./AboutTabs";
+import Testimonials from "./Testimonials";
 
 export default function About() {
-  return (
-    <div>
-      About
-    </div>
-  )
+    return (
+        <>
+            <AboutHero />
+            <AboutTabs />
+            <Testimonials />
+        </>
+    );
 }

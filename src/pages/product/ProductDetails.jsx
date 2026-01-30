@@ -19,7 +19,7 @@ export default function ProductDetails() {
 
     return (
         <Box sx={{ py: 8 }}>
-            <Grid container spacing={6}>
+            <Grid container spacing={6} >
 
                 
                 <Grid item size={{ xs: 12, sm: 12, md: 6, lg: 5 }}>
@@ -43,7 +43,7 @@ export default function ProductDetails() {
                     <Typography variant="h6" sx={{ color: "text.secondary", mb: 2 }}>
                         ${data.price}
                     </Typography>
-
+                    <Typography variant="h6" sx={{ color: "text.secondary", mb: 2 }}>Available Quantity: {data.quantity}</Typography>
                     <Rating value={data.rate} readOnly sx={{ mb: 2 }} />
 
                     <Typography sx={{ mb: 4, color: "text.secondary", lineHeight: 1.7 }}>
@@ -73,7 +73,7 @@ export default function ProductDetails() {
                                     </Typography>
 
                                     <Rating value={review.rating} readOnly size="small" />
-
+                                    
                                     <Typography sx={{ color: "text.secondary", fontSize: 14 }}>
                                         {review.comment}
                                     </Typography>

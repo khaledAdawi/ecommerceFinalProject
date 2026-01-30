@@ -131,7 +131,7 @@ export default function Navbar() {
                   <PersonIcon sx={{ fontSize: 20 }} />
                 </IconButton>
                 <Typography sx={{ fontSize: 13, color: "text.secondary" }}>
-                  {user?.name}
+                  {user}
                 </Typography>
               </Box>
 

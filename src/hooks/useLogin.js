@@ -24,7 +24,7 @@ export default function useLogin() {
                 role:decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
             }
             setToken(token);
-            setUser(user);
+            setUser(user.name);
             navigate("/home");
         },
         onError: (err) => {

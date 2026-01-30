@@ -13,6 +13,9 @@ import SendCode from "./pages/login/SendCode";
 import ProtectedRouter from "./ProtectedRouter";
 import ProductDetails from "./pages/product/ProductDetails";
 import CheckOut from "./pages/checkout/Checkout";
+import Profile from "./pages/profile/Profile";
+import ProfileInfo from "./pages/profile/ProfileInfo";
+import ProfileOrders from "./pages/profile/ProfileOrders";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +43,23 @@ const router = createBrowserRouter([
                 <ProtectedRouter>
                     <CheckOut />
                 </ProtectedRouter>
+            },
+            {
+                path:'profile',
+                element:
+                <ProtectedRouter>
+                    <Profile/>
+                </ProtectedRouter>,
+                children: [
+                    {
+                        index: true,
+                        element: <ProfileInfo />
+                    },
+                    {
+                        path: 'orders',
+                        element: <ProfileOrders />
+                    }
+                ]
             },
             {
                 path: 'shop',
